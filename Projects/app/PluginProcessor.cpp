@@ -86,6 +86,13 @@ void AudioPluginAudioProcessor::changeProgramName (int index, const juce::String
 //==============================================================================
 void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+	juce::dsp::ProcessSpec spec;
+	spec.maximumBlockSize = samplesPerBlock;
+	spec.numChannels = getTotalNumInputChannels();
+	spec.sampleRate = sampleRate;
+
+//	compressor.prepare(spec);
+	gain.prepare(spec);
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     juce::ignoreUnused (sampleRate, samplesPerBlock);
@@ -147,10 +154,18 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     // interleaved by keeping the same state.
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer (channel);
-        juce::ignoreUnused (channelData);
+		auto* channelData = buffer.getWritePointer (channel);
+
+		for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+		{
+			channelData[sample] = buffer.getSample(channel, sample);
+			channelData[sample] *= gainValue;
+//			compressor.processSample(channel, channelData[sample]);
+		}
+		// ..do something to the data...
+		juce::ignoreUnused (channelData);
+	}
         // ..do something to the data...
-    }
 }
 
 //==============================================================================

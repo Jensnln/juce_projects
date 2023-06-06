@@ -1,9 +1,7 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
-//#include <juce_dsp/juce_dsp.h>
-//#include "/Users/jens/Documents/juce_projects/JuceLibraryCode/JuceHeader.h"
-#include <juce_dsp/widgets/juce_Gain.h>
+#include <juce_dsp/juce_dsp.h>
 
 
 //==============================================================================
@@ -45,6 +43,12 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+
+	juce::dsp::Gain<float> gain;
+
+	float gainValue = 0.5f;
+
+//	juce::dsp::Compressor<float> compressor;
 
 
 private:
