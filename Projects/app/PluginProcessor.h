@@ -1,7 +1,10 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
-#include "jCompressor.h"
+//#include <juce_dsp/juce_dsp.h>
+//#include "/Users/jens/Documents/juce_projects/JuceLibraryCode/JuceHeader.h"
+#include <juce_dsp/widgets/juce_Gain.h>
+
 
 //==============================================================================
 class AudioPluginAudioProcessor  : public juce::AudioProcessor
@@ -43,7 +46,6 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	jCompressor compressor;
 
 private:
     //==============================================================================
